@@ -22,7 +22,7 @@ def upload_file(request):
             os.path.join(f'media/output/{fileName}.srt')
         )
 
-        delete_files_from_server(fileName)
+        #delete_files_from_server(fileName)
 
         return redirect(f'/subtitle/{fileName}')
     
