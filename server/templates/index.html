@@ -1,17 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <!-- Get Tailwind and Daisy UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.13/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+    <title>cc-ceeker</title>
 </head>
-<body>
-    <!-- upload.html -->
-<form action="/upload" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="file">
-    <input type="submit" value="Upload">
-  </form>
+
+<body class="mx-auto py-2 my-2">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="p-2">
+            <input type="file" class="file-input file-input-bordered file-input-accent w-full" name="file"
+                accept=".mkv,.mp4,.mov" />
+        </div>
+
+        <div class="p-2">
+            <button class="btn btn-accent btn-active text-gray-200 w-1/2" type="submit" value="Upload">Submit</button>
+        </div>
+    </form>
+
+    <div class="p-4">
+        <div role="alert" class="alert alert-error hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>The uploaded file must be a video.</span>
+        </div>
+    </div>
 </body>
+
+<script>
+    // Check if the file uplaoded is a video file on submit click, else show error
+    const fileInput = document.querySelector('input[type="file"]');
+    const submitButton = document.querySelector('button[type="submit"]');
+    const alertDiv = document.querySelector('.alert');
+
+    submitButton.addEventListener('click', (e) => {
+        const filePath = fileInput.value;
+        const allowedExtensions = /(\.mkv|\.mp4|\.mov)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+
+            // Display the alert div and hide it after 5 seconds
+            alertDiv.classList.remove('hidden');
+            alertDiv.classList.add('block');
+            setTimeout(() => {
+                alertDiv.classList.remove('block');
+                alertDiv.classList.add('hidden');
+            }, 5000);
+
+            e.preventDefault();
+            fileInput.value = '';
+            return false;
+        }
+    });
+
+</script>
+
 </html>

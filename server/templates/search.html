@@ -1,33 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <!-- Get Tailwind and Daisy UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.13/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+    <title>cc-ceeker</title>
 </head>
+
 <body>
     <!-- upload.html -->
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% comment %} <input type="file" name="file"> {% endcomment %}
-    <input name="keyword">
-    <input type="submit" value="Search">
-  </form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% comment %}
+        <input type="file" name="file">
+        {% endcomment %}
+
+        <div class="p-2 pb-1">
+            <input type="text" placeholder="Type some keywords here" class="input input-bordered input-accent w-full"
+                name="keyword" />
+        </div>
+
+        <div class="p-2 pt-1">
+            <button class="btn btn-accent btn-active text-gray-200 w-1/2" type="submit" value="Search">Search</button>
+        </div>
+    </form>
 
 
-  <div>
-    {% if subtitles_data|length >= 1 %}
+    <div>
+        {% if subtitles_data|length >= 1 %}
         {% for i in subtitles_data %}
-            <p>{{ i }} </p>
+        <p>{{ i }} </p>
         {% endfor %}
-    {% elif passed == False%}
+        {% elif passed == False%}
         <p> Not Found </p>
-    {% endif %}
+        {% endif %}
 
-
-      
-  </div>
+    </div>
 
 </body>
+
 </html>
