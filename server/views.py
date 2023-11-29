@@ -17,6 +17,7 @@ def upload_file(request):
 
         extract_subtitles(fileName)
         save_to_s3(fileName)
+        print("Calling save_srt_content_to_dynamodb")
         save_srt_content_to_dynamodb(
             fileName,
             os.path.join(f'media/output/{fileName}.srt')
@@ -129,6 +130,7 @@ def save_to_s3(file_name):
 
     
 def save_srt_content_to_dynamodb(file_name, subtitle_path):
+    print(file_name, subtitle_path)
     subtitle = ""
     # Open and read the .srt file
     with open(subtitle_path, 'r') as file:
@@ -142,13 +144,14 @@ def save_srt_content_to_dynamodb(file_name, subtitle_path):
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
         region_name='ap-south-1'
     )
-
+    print(dynamodb)
     table_name = 'subtitles'
     table = dynamodb.Table(table_name)
     item = {
         'video': file_name,
         'subtitles': subtitle
     }
+    print(item)
     table.put_item(Item=item)
 
 def save_query_to_dynamo(file_name,subtitles,keyword):
