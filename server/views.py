@@ -6,6 +6,7 @@ import os
 import re
 import boto3
 import uuid
+import re
 
 def index(request):
     return render(request,"index.html")
@@ -103,10 +104,13 @@ def delete_files_from_server(file_name):
     os.remove(os.path.join(f'media/output/{file_name}.srt'))
     return        
 
-def search_subtitles(keyword,subtitles):
+def search_subtitles(keyword, subtitles):
     filtered_subs = []
     for i in subtitles:
-        if keyword.lower() in i['text'].lower():
+        # Split the subtitle text into words using regular expressions
+        words = set(re.findall(r'\b\w+\b', i['text'].lower()))
+        # Check if the keyword is in the set of words
+        if keyword.lower() in words:
             filtered_subs.append(i)
     return filtered_subs
 

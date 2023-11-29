@@ -20,7 +20,9 @@
             <input type="file" class="file-input file-input-bordered file-input-accent w-full" name="file"
                 accept=".mkv,.mp4,.mov" />
         </div>
-
+        <div class="p-2">
+            <div id="progress-bar" style="width: 0%; height: 20px; background-color: rgb(0,215,192); border-radius: 10px;"></div>
+        </div>
         <div class="p-2">
             <button class="btn btn-accent btn-active text-gray-200 w-1/2" type="submit" value="Upload">Submit</button>
         </div>
@@ -61,6 +63,17 @@
             fileInput.value = '';
             return false;
         }
+        const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    xhr.upload.addEventListener('progress', (e) => {
+        const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
+        document.getElementById('progress-bar').style.width = `${percent}%`;
+    });
+
+    xhr.open('POST', '/upload', true);
+    xhr.send(formData);
     });
 
 </script>

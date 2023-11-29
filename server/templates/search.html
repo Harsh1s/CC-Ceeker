@@ -10,6 +10,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.13/dist/full.min.css" rel="stylesheet" type="text/css" />
 
+    <style>
+        .expandable {
+            cursor: pointer;
+        }
+    </style>
+
     <title>cc-ceeker</title>
 </head>
 
@@ -17,10 +23,6 @@
     <!-- upload.html -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
-        {% comment %}
-        <input type="file" name="file">
-        {% endcomment %}
 
         <div class="p-2 pb-1">
             <input type="text" placeholder="Type some keywords here" class="input input-bordered input-accent w-full"
@@ -32,17 +34,41 @@
         </div>
     </form>
 
-
     <div>
         {% if subtitles_data|length >= 1 %}
-        {% for i in subtitles_data %}
-        <p>{{ i }} </p>
-        {% endfor %}
-        {% elif passed == False%}
+        <table class="table w-full table-compact">
+            <thead>
+                <tr>
+                    <th>Subtitle Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in subtitles_data %}
+                <tr class="expandable">
+                    <td>{{ i.text }}</td>
+                </tr>
+                <tr class="hidden details">
+                    <td>Start Time: {{ i.start_time }}</td>
+                    <td>End Time: {{ i.end_time }}</td>
+                    <!-- Add more details as needed -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% elif passed == False %}
         <p> Not Found </p>
         {% endif %}
-
     </div>
+
+    <script>
+        const rows = document.querySelectorAll('.expandable');
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                const details = row.nextElementSibling;
+                details.classList.toggle('hidden');
+            });
+        });
+    </script>
 
 </body>
 
