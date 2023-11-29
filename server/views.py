@@ -129,10 +129,14 @@ def save_to_s3(file_name):
 
     
 def save_srt_content_to_dynamodb(file_name, subtitle_path):
+    subtitle = ""
     # Open and read the .srt file
     with open(subtitle_path, 'r') as file:
         subtitle = file.read()
 
+    print(file_name)
+    print(subtitle)
+ 
     dynamodb = boto3.resource('dynamodb', 
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
@@ -163,6 +167,7 @@ def save_query_to_dynamo(file_name,subtitles,keyword):
         'keyword': keyword,
         'result': subtitles
     }
+    print(item)
     table.put_item(Item=item)
 
     print(f"Item inserted into DynamoDB table: {table_name}")
