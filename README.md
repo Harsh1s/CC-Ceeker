@@ -2,7 +2,7 @@
 Your Go-To Seeker in the Subtitle Safari – Navigate the Jungle of Videos with Ease using Subtitle Searches!
 
 Link:
-You can try the app at this link: http://ec2-35-154-71-104.ap-south-1.compute.amazonaws.com:8000/
+You can try the app at this link: [http://ec2-35-154-71-104.ap-south-1.compute.amazonaws.com:8000/](http://ec2-13-127-232-129.ap-south-1.compute.amazonaws.com:8000/)
 
 ## Overview
 This project is aimed at creating a web application that allows users to upload videos, process them by extracting subtitles using the ccextractor binary, and then search for specific content within the videos using the extracted subtitles as keywords. All of the processing is done behind the scenes by an EC2 instance. Video files are processed and then stored in an S3 bucket and their subtitles are given a unique id and stored in a DynamoDb table. When the user searches for a specific keyword, the DynamoDB table for subtitles is looked into for the corresponding subtitle of the video file. Then this subtitle file is processed to search for the keywords. The search results are further stored in a separate table.
